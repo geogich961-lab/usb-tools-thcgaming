@@ -2478,6 +2478,9 @@ static INT_PTR CALLBACK MainCallback(HWND hDlg, UINT message, WPARAM wParam, LPA
 				app_changed_label = FALSE;
 			}
 			break;
+		case IDC_DEVICE_INFO_BUTTON:
+			THCG_ShowDeviceInspector(hDlg, ComboBox_GetCurSel(hDeviceList));
+			break;
 		case IDC_DEVICE:
 			if (HIWORD(wParam) != CBN_SELCHANGE)
 				break;
