@@ -28,6 +28,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>rufus</ProjectName>
+    <TargetName>THCGaming-USB-Tools</TargetName>
     <ProjectGuid>{731858A7-0303-4988-877B-9C0DD6471864}</ProjectGuid>
     <RootNamespace>rufus</RootNamespace>
     <Keyword>Win32Proj</Keyword>

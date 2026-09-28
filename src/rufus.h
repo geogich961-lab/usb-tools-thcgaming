@@ -44,7 +44,7 @@
  */
 //#define RUFUS_TEST
 
-#define APPLICATION_NAME            "Rufus"
+#define APPLICATION_NAME            "USB Tools - THCGaming"
 #if defined(_M_AMD64)
 #define APPLICATION_ARCH            "x64"
 #elif defined(_M_IX86)
@@ -56,7 +56,7 @@
 #else
 #define APPLICATION_ARCH            "(Unknown Arch)"
 #endif
-#define COMPANY_NAME                "Akeo Consulting"
+#define COMPANY_NAME                "THCGaming"
 #define STR_NO_LABEL                "NO_LABEL"
 #define LEFT_TO_RIGHT_MARK          "\u200e"
 #define RIGHT_TO_LEFT_MARK          "\u200f"

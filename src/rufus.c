@@ -2850,11 +2850,9 @@ static INT_PTR CALLBACK MainCallback(HWND hDlg, UINT message, WPARAM wParam, LPA
 		fScale = GetDeviceCaps(hDC, LOGPIXELSX) / 96.0f;
 		safe_release_dc(hDlg, hDC);
 		apply_localization(IDD_DIALOG, hDlg);
-		// The AppStore version always enables Fido
-		if (appstore_version)
-			SetFidoCheck();
-		else
-			SetUpdateCheck();
+		// THCGaming fork: keep Fido available, but do not use the upstream Rufus updater.
+		// A dedicated update channel will be introduced for USB Tools - THCGaming.
+		SetFidoCheck();
 		first_log_display = TRUE;
 		log_displayed = FALSE;
 		hLogDialog = MyCreateDialog(hMainInstance, IDD_LOG, hDlg, (DLGPROC)LogCallback);
@@ -2862,9 +2860,8 @@ static INT_PTR CALLBACK MainCallback(HWND hDlg, UINT message, WPARAM wParam, LPA
 		GetDevices(0);
 		EnableControls(TRUE, FALSE);
 		UpdateImage(FALSE);
-		// The AppStore version does not need the internal check for updates
-		if (!appstore_version)
-			CheckForUpdates(FALSE);
+		// THCGaming fork: upstream Rufus update checks are intentionally disabled.
+		// This prevents v0.x builds from offering an unrelated Rufus release as an update.
 		// Register MEDIA_INSERTED/MEDIA_REMOVED notifications for card readers
 		if (SUCCEEDED(SHGetSpecialFolderLocation(0, CSIDL_DESKTOP, &pidlDesktop))) {
 			NotifyEntry.pidl = pidlDesktop;
@@ -3356,7 +3353,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 {
 	const char* rufus_loc = "rufus.loc";
-	int i, opt, option_index = 0, argc = 0, si = 0, lcid = GetUserDefaultUILanguage();
+	int i, opt, option_index = 0, argc = 0, si = 0, lcid = MAKELANGID(LANG_VIETNAMESE, SUBLANG_DEFAULT);
 	int wait_for_mutex = 0, forced_windows_version = 0;
 	uint32_t wue_options;
 	FILE* fd;
