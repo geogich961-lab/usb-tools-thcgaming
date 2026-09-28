@@ -299,6 +299,7 @@
     <ClCompile Include="..\src\cregex_vm.c" />
     <ClCompile Include="..\src\darkmode.c" />
     <ClCompile Include="..\src\dos_locale.c" />
+    <ClCompile Include="..\src\device_inspector.c" />
     <ClCompile Include="..\src\drive.c" />
     <ClCompile Include="..\src\format.c" />
     <ClCompile Include="..\src\dos.c" />
@@ -332,6 +333,7 @@
     <ClInclude Include="..\src\bled\bled.h" />
     <ClInclude Include="..\src\cregex.h" />
     <ClInclude Include="..\src\darkmode.h" />
+    <ClInclude Include="..\src\device_inspector.h" />
     <ClInclude Include="..\src\drive.h" />
     <ClInclude Include="..\src\efi.h" />
     <ClInclude Include="..\src\format.h" />
