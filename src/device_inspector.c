@@ -8,6 +8,7 @@
 
 #include <windows.h>
 #include <winioctl.h>
+#include <shellapi.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -34,6 +35,7 @@ extern HICON hBigIcon;
 
 static int inspector_device_index = -1;
 static THCG_DEVICE_INFO inspector_info;
+static HICON inspector_device_icon = NULL;
 
 static const char* THCG_BusName(int bus_type)
 {
@@ -107,6 +109,21 @@ static void THCG_FormatDriveLetters(DWORD drive_index, char* dst, size_t dst_siz
 		safe_sprintf(item, sizeof(item), "%c:%s", letters[i], letters[i + 1] ? ", " : "");
 		safe_strcat(dst, dst_size, item);
 	}
+}
+
+static HICON THCG_LoadDeviceIcon(DWORD drive_index)
+{
+	char letters[32] = { 0 };
+	char root[4] = "A:\\";
+	SHFILEINFOA sfi;
+
+	memset(&sfi, 0, sizeof(sfi));
+	if (GetDriveLetters(drive_index, letters) && letters[0] != 0) {
+		root[0] = letters[0];
+		if (SHGetFileInfoA(root, 0, &sfi, sizeof(sfi), SHGFI_ICON | SHGFI_LARGEICON) != 0)
+			return sfi.hIcon;
+	}
+	return hBigIcon;
 }
 
 static void THCG_QueryVolume(DWORD drive_index, THCG_DEVICE_INFO* info)
@@ -267,7 +284,9 @@ INT_PTR CALLBACK THCG_DeviceInfoCallback(HWND hDlg, UINT message, WPARAM wParam,
 		SetDarkModeForDlg(hDlg);
 		SetWindowTextU(hDlg, "Thông tin thiết bị - USB Tools - THCGaming");
 		CenterDialog(hDlg, NULL);
-		SendDlgItemMessage(hDlg, IDC_DI_ICON, STM_SETICON, (WPARAM)hBigIcon, 0);
+		inspector_device_icon = (inspector_device_index >= 0 && inspector_device_index < MAX_DRIVES) ?
+			THCG_LoadDeviceIcon(rufus_drive[inspector_device_index].index) : hBigIcon;
+		SendDlgItemMessage(hDlg, IDC_DI_ICON, STM_SETICON, (WPARAM)inspector_device_icon, 0);
 
 		SetDlgItemTextU(hDlg, IDC_DI_TITLE_LABEL, "Thiết bị đang chọn");
 		SetDlgItemTextU(hDlg, IDC_DI_VENDOR_LABEL, "Nhà sản xuất:");
@@ -317,6 +336,11 @@ INT_PTR CALLBACK THCG_DeviceInfoCallback(HWND hDlg, UINT message, WPARAM wParam,
 			EndDialog(hDlg, LOWORD(wParam));
 			return (INT_PTR)TRUE;
 		}
+		break;
+	case WM_DESTROY:
+		if ((inspector_device_icon != NULL) && (inspector_device_icon != hBigIcon))
+			DestroyIcon(inspector_device_icon);
+		inspector_device_icon = NULL;
 		break;
 	}
 	return (INT_PTR)FALSE;
