@@ -50,6 +50,7 @@
 #include "vhd.h"
 #include "wue.h"
 #include "drive.h"
+#include "device_inspector.h"
 #include "cregex.h"
 #include "settings.h"
 #include "darkmode.h"
@@ -905,6 +906,8 @@ static BOOL PopulateProperties(void)
 	char* device_tooltip;
 	int device_index = ComboBox_GetCurSel(hDeviceList);
 	char fs_name[32];
+
+	EnableWindow(GetDlgItem(hMainDialog, IDC_DEVICE_INFO_BUTTON), device_index >= 0);
 
 	memset(&SelectedDrive, 0, sizeof(SelectedDrive));
 	EnableWindow(hStart, FALSE);
@@ -2478,6 +2481,9 @@ static INT_PTR CALLBACK MainCallback(HWND hDlg, UINT message, WPARAM wParam, LPA
 				app_changed_label = FALSE;
 			}
 			break;
+		case IDC_DEVICE_INFO_BUTTON:
+			THCG_ShowDeviceInspector(hDlg, ComboBox_GetCurSel(hDeviceList));
+			break;
 		case IDC_DEVICE:
 			if (HIWORD(wParam) != CBN_SELCHANGE)
 				break;
@@ -2850,6 +2856,7 @@ static INT_PTR CALLBACK MainCallback(HWND hDlg, UINT message, WPARAM wParam, LPA
 		fScale = GetDeviceCaps(hDC, LOGPIXELSX) / 96.0f;
 		safe_release_dc(hDlg, hDC);
 		apply_localization(IDD_DIALOG, hDlg);
+		SetDlgItemTextU(hDlg, IDC_DEVICE_INFO_BUTTON, "THÔNG TIN");
 		// THCGaming fork: keep Fido available, but do not use the upstream Rufus updater.
 		// A dedicated update channel will be introduced for USB Tools - THCGaming.
 		SetFidoCheck();

@@ -88,7 +88,7 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 PROGRAMS = $(noinst_PROGRAMS)
 am_rufus_OBJECTS = rufus-badblocks.$(OBJEXT) rufus-darkmode.$(OBJEXT) \
-	rufus-dev.$(OBJEXT) rufus-dos.$(OBJEXT) \
+	rufus-device_inspector.$(OBJEXT) rufus-dev.$(OBJEXT) rufus-dos.$(OBJEXT) \
 	rufus-dos_locale.$(OBJEXT) rufus-drive.$(OBJEXT) \
 	rufus-format.$(OBJEXT) rufus-format_ext.$(OBJEXT) \
 	rufus-format_fat32.$(OBJEXT) rufus-hash.$(OBJEXT) \
@@ -285,7 +285,7 @@ AM_V_WINDRES_0 = @echo "  RC     $@";$(WINDRES)
 AM_V_WINDRES_1 = $(WINDRES)
 AM_V_WINDRES_ = $(AM_V_WINDRES_$(AM_DEFAULT_VERBOSITY))
 AM_V_WINDRES = $(AM_V_WINDRES_$(V))
-rufus_SOURCES = badblocks.c darkmode.c dev.c dos.c dos_locale.c drive.c format.c format_ext.c format_fat32.c hash.c icon.c iso.c localization.c \
+rufus_SOURCES = badblocks.c darkmode.c device_inspector.c dev.c dos.c dos_locale.c drive.c format.c format_ext.c format_fat32.c hash.c icon.c iso.c localization.c \
 	 net.c parser.c pki.c process.c cregex_compile.c cregex_parse.c cregex_vm.c rufus.c smart.c stdfn.c stdio.c stdlg.c syslinux.c ui.c vhd.c wue.c xml.c
 
 rufus_CFLAGS = -I$(srcdir)/ms-sys/inc -I$(srcdir)/syslinux/libfat -I$(srcdir)/syslinux/libinstaller -I$(srcdir)/syslinux/win -I$(srcdir)/libcdio -I$(srcdir)/wimlib -I$(srcdir)/../res $(AM_CFLAGS) \
@@ -360,6 +360,12 @@ rufus-darkmode.o: darkmode.c
 
 rufus-darkmode.obj: darkmode.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rufus_CFLAGS) $(CFLAGS) -c -o rufus-darkmode.obj `if test -f 'darkmode.c'; then $(CYGPATH_W) 'darkmode.c'; else $(CYGPATH_W) '$(srcdir)/darkmode.c'; fi`
+
+rufus-device_inspector.o: device_inspector.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rufus_CFLAGS) $(CFLAGS) -c -o rufus-device_inspector.o `test -f 'device_inspector.c' || echo '$(srcdir)/'`device_inspector.c
+
+rufus-device_inspector.obj: device_inspector.c
+	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rufus_CFLAGS) $(CFLAGS) -c -o rufus-device_inspector.obj `if test -f 'device_inspector.c'; then $(CYGPATH_W) 'device_inspector.c'; else $(CYGPATH_W) '$(srcdir)/device_inspector.c'; fi`
 
 rufus-dev.o: dev.c
 	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(rufus_CFLAGS) $(CFLAGS) -c -o rufus-dev.o `test -f 'dev.c' || echo '$(srcdir)/'`dev.c

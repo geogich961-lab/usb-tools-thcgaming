@@ -1026,6 +1026,14 @@ BOOL GetDevices(DWORD devnum)
 				rufus_drive[num_drives].display_name = safe_strdup(display_name);
 				rufus_drive[num_drives].label = safe_strdup(label);
 				rufus_drive[num_drives].size = drive_size;
+				rufus_drive[num_drives].vid = props.vid;
+				rufus_drive[num_drives].pid = props.pid;
+				rufus_drive[num_drives].usb_speed = props.speed;
+				rufus_drive[num_drives].usb_lower_speed = props.lower_speed;
+				rufus_drive[num_drives].is_usb = props.is_USB;
+				rufus_drive[num_drives].is_uasp = props.is_UASP;
+				rufus_drive[num_drives].is_card = props.is_CARD;
+				rufus_drive[num_drives].is_removable = props.is_Removable;
 				if_assert_fails(rufus_drive[num_drives].size != 0)
 					break;
 				if (hub_path != NULL) {
