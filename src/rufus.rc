@@ -33,7 +33,7 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 IDD_DIALOG DIALOGEX 12, 12, 232, 326
 STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
 EXSTYLE WS_EX_ACCEPTFILES
-CAPTION "Rufus 4.15.2407"
+CAPTION "USB Tools - THCGaming 0.1.0"
 FONT 9, "Segoe UI Symbol", 400, 0, 0x0
 BEGIN
     LTEXT           "Drive Properties",IDS_DRIVE_PROPERTIES_TXT,8,6,53,12,NOT WS_GROUP
@@ -85,7 +85,7 @@ END
 
 IDD_ABOUTBOX DIALOGEX 0, 0, 319, 237
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "About Rufus"
+CAPTION "About USB Tools - THCGaming"
 FONT 9, "Segoe UI Symbol", 400, 0, 0x0
 BEGIN
     ICON            IDI_ICON,IDC_ABOUT_ICON,11,8,20,20
@@ -113,7 +113,7 @@ END
 
 IDD_LICENSE DIALOGEX 0, 0, 335, 213
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Rufus License"
+CAPTION "USB Tools - THCGaming License"
 FONT 9, "Segoe UI Symbol", 400, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "Close",IDCANCEL,278,192,50,12
@@ -409,8 +409,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 4,15,2407,0
- PRODUCTVERSION 4,15,2407,0
+ FILEVERSION 0,1,0,0
+ PRODUCTVERSION 0,1,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -425,16 +425,16 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "https://rufus.ie"
-            VALUE "CompanyName", "Akeo Consulting"
-            VALUE "FileDescription", "Rufus"
-            VALUE "FileVersion", "4.15.2407"
-            VALUE "InternalName", "Rufus"
-            VALUE "LegalCopyright", "� 2011-2026 Pete Batard (GPL v3)"
+            VALUE "Comments", "https://github.com/geogich961-lab/usb-tools-thcgaming"
+            VALUE "CompanyName", "THCGaming"
+            VALUE "FileDescription", "USB Tools - THCGaming"
+            VALUE "FileVersion", "0.1.0"
+            VALUE "InternalName", "THCGaming USB Tools"
+            VALUE "LegalCopyright", "© 2011-2026 Pete Batard; modifications © 2026 THCGaming (GPL v3)"
             VALUE "LegalTrademarks", "https://www.gnu.org/licenses/gpl-3.0.html"
-            VALUE "OriginalFilename", "rufus-4.15.exe"
-            VALUE "ProductName", "Rufus"
-            VALUE "ProductVersion", "4.15.2407"
+            VALUE "OriginalFilename", "THCGaming-USB-Tools.exe"
+            VALUE "ProductName", "USB Tools - THCGaming"
+            VALUE "ProductVersion", "0.1.0"
         END
     END
     BLOCK "VarFileInfo"
