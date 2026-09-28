@@ -493,6 +493,14 @@ typedef struct {
 	DWORD index;
 	uint32_t port;
 	uint64_t size;
+	int32_t vid;
+	int32_t pid;
+	uint32_t usb_speed;
+	uint32_t usb_lower_speed;
+	BOOLEAN is_usb;
+	BOOLEAN is_uasp;
+	BOOLEAN is_card;
+	BOOLEAN is_removable;
 } RUFUS_DRIVE;
 
 typedef struct {
