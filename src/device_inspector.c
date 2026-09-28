@@ -19,6 +19,15 @@
 #include "darkmode.h"
 #include "device_inspector.h"
 
+#ifndef IOCTL_STORAGE_PREDICT_FAILURE
+#define IOCTL_STORAGE_PREDICT_FAILURE CTL_CODE(IOCTL_STORAGE_BASE, 0x0440, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#endif
+
+typedef struct {
+	ULONG PredictFailure;
+	BYTE VendorSpecific[512];
+} THCG_STORAGE_PREDICT_FAILURE;
+
 extern RUFUS_DRIVE rufus_drive[MAX_DRIVES];
 extern HINSTANCE hMainInstance;
 extern HICON hBigIcon;
@@ -72,7 +81,6 @@ static void THCG_CopyDescriptorString(char* dst, size_t dst_size, const BYTE* bu
 
 	if ((dst == NULL) || (dst_size == 0))
 		return;
-	dst[0] = 0;
 	if ((offset == 0) || (offset >= returned))
 		return;
 	src = (const char*)&buffer[offset];
@@ -148,7 +156,7 @@ static void THCG_QueryStorageDescriptor(HANDLE hPhysical, THCG_DEVICE_INFO* info
 
 static void THCG_QueryHealth(HANDLE hPhysical, THCG_DEVICE_INFO* info)
 {
-	STORAGE_PREDICT_FAILURE prediction;
+	THCG_STORAGE_PREDICT_FAILURE prediction;
 	DWORD returned = 0;
 
 	memset(&prediction, 0, sizeof(prediction));
