@@ -1,0 +1,87 @@
+name: THCGaming Auto Build x64
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - 'develop/**'
+    paths:
+      - '.github/workflows/thcgaming-build.yml'
+      - '.vs/**'
+      - 'src/**'
+      - 'res/**'
+      - 'rufus.sln'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/thcgaming-build.yml'
+      - '.vs/**'
+      - 'src/**'
+      - 'res/**'
+      - 'rufus.sln'
+
+permissions:
+  contents: read
+
+env:
+  SOLUTION_FILE_PATH: ./rufus.sln
+  BUILD_CONFIGURATION: Release
+  BUILD_PLATFORM: x64
+  OUTPUT_EXE: THCGaming-USB-Tools.exe
+
+jobs:
+  build-x64:
+    name: Build Release x64
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v3
+        with:
+          msbuild-architecture: x64
+
+      - name: Build USB Tools - THCGaming
+        shell: cmd
+        run: |
+          set ExternalCompilerOptions=
+          msbuild %SOLUTION_FILE_PATH% /m /p:Configuration=%BUILD_CONFIGURATION%,Platform=%BUILD_PLATFORM%,ForceImportBeforeCppTargets=%GITHUB_WORKSPACE%\.vs\Generate.PDB.props
+
+      - name: Verify executable
+        shell: pwsh
+        run: |
+          $exe = Join-Path $env:GITHUB_WORKSPACE "x64\Release\$env:OUTPUT_EXE"
+          if (!(Test-Path $exe)) {
+            Write-Error "Build completed but $env:OUTPUT_EXE was not found at: $exe"
+            Get-ChildItem -Path "$env:GITHUB_WORKSPACE\x64\Release" -Force -ErrorAction SilentlyContinue
+            exit 1
+          }
+          Write-Host "Built executable: $exe"
+
+      - name: Prepare artifact
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifact | Out-Null
+          Copy-Item "x64\Release\$env:OUTPUT_EXE" "artifact\$env:OUTPUT_EXE"
+          $pdb = "x64\Release\THCGaming-USB-Tools.pdb"
+          if (Test-Path $pdb) {
+            Copy-Item $pdb "artifact\THCGaming-USB-Tools.pdb"
+          }
+          $hash = (Get-FileHash "artifact\$env:OUTPUT_EXE" -Algorithm SHA256).Hash
+          "SHA256  $hash  $env:OUTPUT_EXE" | Out-File -FilePath "artifact\SHA256.txt" -Encoding ascii
+          "USB Tools - THCGaming`nBuild: Release x64`nCommit: $env:GITHUB_SHA`n`nThis is an unsigned development build." | Out-File -FilePath "artifact\README-BUILD.txt" -Encoding utf8
+
+      - name: Upload x64 test build
+        uses: actions/upload-artifact@v7
+        with:
+          name: USB-Tools-THCGaming-x64-${{ github.run_number }}
+          path: artifact/
+          if-no-files-found: error
+          retention-days: 30
