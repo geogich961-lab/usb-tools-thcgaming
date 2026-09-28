@@ -75,6 +75,9 @@
     <ClCompile Include="..\src\dev.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\device_inspector.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\src\process.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -165,6 +168,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\dev.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\device_inspector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\db.h">
