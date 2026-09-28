@@ -50,6 +50,7 @@
 #include "vhd.h"
 #include "wue.h"
 #include "drive.h"
+#include "device_inspector.h"
 #include "cregex.h"
 #include "settings.h"
 #include "darkmode.h"
